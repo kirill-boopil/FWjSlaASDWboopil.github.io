@@ -9,7 +9,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:Inter,sans-serif; }
-
 body {
     background:#050505;
     overflow:hidden;
@@ -18,155 +17,136 @@ body {
     display:flex;
     justify-content:center;
     align-items:center;
-    transition: background 0.6s;
 }
-
-/* Главная страница */
-.main {
+canvas { position:fixed; left:0; top:0; width:100%; height:100%; z-index:-2; opacity:0.8; }
+.blur {
+    position:fixed;
+    width:900px; height:900px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#7c3aed,#3b82f6);
+    filter:blur(160px);
+    opacity:0.14;
+    left:50%; top:50%;
+    transform:translate(-50%,-50%);
+    z-index:-1;
+    animation:pulse 12s infinite alternate ease-in-out;
+}
+@keyframes pulse { 0%{transform:translate(-50%,-50%) scale(0.95);} 100%{transform:translate(-50%,-50%) scale(1.35);} }
+.card {
     width:580px;
     padding:65px 55px;
     background:rgba(20,20,28,0.78);
     border:1px solid rgba(255,255,255,0.12);
     border-radius:36px;
     backdrop-filter:blur(28px);
-    box-shadow:0 30px 70px rgba(0,0,0,0.65);
+    box-shadow:0 30px 70px rgba(0,0,0,0.65),
+               inset 0 3px 15px rgba(255,255,255,0.06),
+               inset 0 -6px 15px rgba(0,0,0,0.7);
     transform-style:preserve-3d;
     position:relative;
     overflow:hidden;
 }
-
-.main::before {
+.card:hover { box-shadow:0 40px 90px rgba(124,58,237,0.45); }
+.card::before {
     content:'';
     position:absolute;
     inset:-50%;
     background:radial-gradient(circle at 50% 25%, rgba(255,255,255,0.25) 0%, transparent 60%);
     opacity:0.65;
     pointer-events:none;
+    z-index:1;
 }
-.main:hover::before { opacity:0.9; }
-
+.card:hover::before { opacity:0.9; }
 .avatar {
     width:152px;
     height:152px;
     border-radius:50%;
-    background: url('https://raw.githubusercontent.com/kirill-boopil/FWJSlaASDWDboopil.github.io/main/images/avatar.png') center/cover;
+    background: url('https://raw.githubusercontent.com/kirill-boopil/FWJSlaASDWDboopil.github.io/main/avatar.png') center/cover;
     margin:0 auto 40px;
     border:5px solid rgba(255,255,255,0.18);
     box-shadow:0 15px 45px rgba(0,0,0,0.5);
+    position:relative;
+    z-index:2;
 }
-
-/* Вторая страница */
-.second {
-    width:100vw;
-    height:100vh;
-    background:#000;
+h1 {
+    font-size:50px;
+    text-align:center;
+    margin-bottom:42px;
+    letter-spacing:-2px;
+    font-weight:700;
+    position:relative;
+    z-index:2;
+}
+.links {
     display:flex;
-    justify-content:center;
-    align-items:center;
     flex-direction:column;
-    gap:30px;
+    gap:17px;
+    position:relative;
+    z-index:2;
 }
-
-.second .big-avatar {
-    width:280px;
-    height:280px;
-    border-radius:50%;
-    background: url('https://raw.githubusercontent.com/kirill-boopil/FWJSlaASDWDboopil.github.io/main/images/avatar.png') center/cover;
-    border:8px solid rgba(255,255,255,0.15);
-    box-shadow:0 0 80px rgba(255,255,255,0.2);
+.links a {
+    text-decoration:none;
+    color:white;
+    background:rgba(255,255,255,0.06);
+    padding:19px 26px;
+    border-radius:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border:1px solid rgba(255,255,255,0.1);
+    font-size:17.5px;
+    transition:all .4s ease;
 }
-
-.second h1 {
-    font-size:42px;
-    opacity:0.9;
+.links a:hover {
+    background:#7c3aed;
+    transform:translateX(14px);
 }
-
-/* Скрытие/показ */
-.hidden { display: none !important; }
 </style>
 </head>
 <body>
-
-<!-- Главная страница -->
-<div class="main" id="mainPage">
+<canvas id="bg"></canvas>
+<div class="blur"></div>
+<div class="card" id="card">
     <div class="avatar"></div>
     <h1>Kirill</h1>
-    
-    <div class="links" style="display:flex; flex-direction:column; gap:17px; margin-top:20px;">
-        <a href="https://github.com/kirill-boopil" target="_blank" style="text-decoration:none;color:white;background:rgba(255,255,255,0.06);padding:19px 26px;border-radius:18px;display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(255,255,255,0.1);font-size:17.5px;">GitHub <span>→</span></a>
-        <a href="#" style="text-decoration:none;color:white;background:rgba(255,255,255,0.06);padding:19px 26px;border-radius:18px;display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(255,255,255,0.1);font-size:17.5px;">Telegram <span>→</span></a>
-        <a href="#" style="text-decoration:none;color:white;background:rgba(255,255,255,0.06);padding:19px 26px;border-radius:18px;display:flex;justify-content:space-between;align-items:center;border:1px solid rgba(255,255,255,0.1);font-size:17.5px;">Discord <span>→</span></a>
+  
+    <div class="links">
+        <a href="https://github.com/kirill-boopil" target="_blank"><span>GitHub</span><span>→</span></a>
+        <a href="#"><span>Telegram</span><span>→</span></a>
+        <a href="#"><span>Discord</span><span>→</span></a>
     </div>
 </div>
-
-<!-- Вторая страница -->
-<div class="second hidden" id="secondPage">
-    <div class="big-avatar"></div>
-    <h1>Kirill</h1>
-</div>
-
 <script>
-// Переключение страниц стрелками
-document.addEventListener('keydown', (e) => {
-    const main = document.getElementById('mainPage');
-    const second = document.getElementById('secondPage');
-
-    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-        main.classList.add('hidden');
-        second.classList.remove('hidden');
-    } 
-    else if (e.key === 'ArrowUp') {
-        main.classList.remove('hidden');
-        second.classList.add('hidden');
-    }
+const canvas=document.getElementById("bg");
+const ctx=canvas.getContext("2d");
+canvas.width=innerWidth; canvas.height=innerHeight;
+let particles=[];
+for(let i=0;i<180;i++){
+particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2.5,dx:(Math.random()-.5)*0.45,dy:(Math.random()-.5)*0.45});
+}
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="rgba(240,240,255,0.9)";
+particles.forEach(p=>{
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fill();
+p.x+=p.dx; p.y+=p.dy;
+if(p.x<0)p.x=canvas.width; if(p.x>canvas.width)p.x=0;
+if(p.y<0)p.y=canvas.height; if(p.y>canvas.height)p.y=0;
 });
-
-// Фон с частицами
-const canvas = document.createElement('canvas');
-canvas.style.position = 'fixed';
-canvas.style.left = '0';
-canvas.style.top = '0';
-canvas.style.width = '100%';
-canvas.style.height = '100%';
-canvas.style.zIndex = '-2';
-document.body.appendChild(canvas);
-
-const ctx = canvas.getContext('2d');
-function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-resize();
-window.addEventListener('resize', resize);
-
-let particles = [];
-for(let i = 0; i < 180; i++) {
-    particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 2.6,
-        dx: (Math.random() - 0.5) * 0.5,
-        dy: (Math.random() - 0.5) * 0.5
-    });
-}
-
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "rgba(200,220,255,0.85)";
-    particles.forEach(p => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
-        p.x += p.dx;
-        p.y += p.dy;
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
-    });
-    requestAnimationFrame(animate);
+requestAnimationFrame(animate);
 }
 animate();
+window.onresize=()=>{canvas.width=innerWidth; canvas.height=innerHeight;};
+const card=document.getElementById("card");
+card.addEventListener("mousemove",e=>{
+const rect=card.getBoundingClientRect();
+const x=(e.clientX-rect.left)/rect.width-0.5;
+const y=(e.clientY-rect.top)/rect.height-0.5;
+card.style.transform=`perspective(1400px) rotateX(${y*-24}deg) rotateY(${x*30}deg) translateZ(40px)`;
+});
+card.addEventListener("mouseleave",()=>{card.style.transform=`perspective(1400px) rotateX(0deg) rotateY(0deg) translateZ(0px)`;});
 </script>
 </body>
 </html>
