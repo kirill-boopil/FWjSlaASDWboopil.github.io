@@ -33,8 +33,8 @@ z-index:-2;
 }
 .blur{
 position:fixed;
-width:700px;
-height:700px;
+width:800px;
+height:800px;
 border-radius:50%;
 background:#7c3aed;
 filter:blur(180px);
@@ -47,18 +47,18 @@ animation:pulse 8s infinite alternate;
 }
 @keyframes pulse{
 0%{transform:translate(-50%,-50%) scale(1);}
-100%{transform:translate(-50%,-50%) scale(1.3);}
+100%{transform:translate(-50%,-50%) scale(1.25);}
 }
 
 .card{
-width:480px;
-padding:45px;
-background:rgba(255,255,255,.05);
-border:1px solid rgba(255,255,255,.1);
-backdrop-filter:blur(20px);
-border-radius:25px;
+width:560px;           /* увеличил */
+padding:60px 50px;
+background:rgba(255,255,255,.06);
+border:1px solid rgba(255,255,255,.12);
+backdrop-filter:blur(24px);
+border-radius:32px;
 transition: transform 0.1s linear, box-shadow 0.4s;
-box-shadow:0 0 60px rgba(124,58,237,.2);
+box-shadow:0 0 70px rgba(124,58,237,.25);
 transform-style: preserve-3d;
 position: relative;
 overflow: hidden;
@@ -66,77 +66,78 @@ overflow: hidden;
 .card::before{
 content: '';
 position: absolute;
-top: -100%;
+top: -150%;
 left: -100%;
-width: 50%;
-height: 200%;
+width: 40%;
+height: 300%;
 background: linear-gradient(
     120deg,
-    transparent,
-    rgba(255,255,255,0.25),
-    transparent
+    transparent 30%,
+    rgba(255,255,255,0.35) 50%,
+    transparent 70%
 );
-transition: all 0.6s;
+transition: all 0.7s ease;
 pointer-events: none;
-z-index: 1;
+z-index: 2;
 }
 .card:hover::before{
-top: -30%;
-left: -30%;
-transform: rotate(30deg);
+top: 100%;
+left: 120%;
+transform: rotate(25deg);
 }
 
 .card:hover{
-box-shadow:0 0 90px rgba(124,58,237,.45);
+box-shadow:0 0 110px rgba(124,58,237,.5);
 }
 
 .avatar{
-width:110px;
-height:110px;
+width:140px;           /* увеличил */
+height:140px;
 border-radius:50%;
-background:linear-gradient(135deg,#8b5cf6,#3b82f6);
+background: url('/home/workdir/attachments/image.png') center/cover;
 display:flex;
 justify-content:center;
 align-items:center;
-font-size:42px;
-font-weight:bold;
 margin:auto;
-margin-bottom:25px;
-background-size: cover;
-background-position: center;
-border: 3px solid rgba(255,255,255,0.15);
+margin-bottom:35px;
+border:4px solid rgba(255,255,255,0.2);
+box-shadow:0 0 30px rgba(124,58,237,.3);
 }
 
 h1{
-font-size:42px;
+font-size:48px;
 text-align:center;
-margin-bottom:30px;
+margin-bottom:35px;
+letter-spacing:-1px;
 }
 
 .links{
 display:flex;
 flex-direction:column;
-gap:15px;
+gap:18px;
 }
 .links a{
 text-decoration:none;
 color:white;
-background:rgba(255,255,255,.05);
-padding:16px;
-border-radius:14px;
+background:rgba(255,255,255,.06);
+padding:18px 22px;
+border-radius:16px;
 display:flex;
 justify-content:space-between;
+align-items:center;
 transition:.35s;
-border:1px solid rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.1);
+font-size:17px;
 }
 .links a:hover{
 background:#7c3aed;
-transform:translateX(8px);
+transform:translateX(12px);
+box-shadow:0 0 20px rgba(124,58,237,.4);
 }
 footer{
-margin-top:35px;
+margin-top:40px;
 text-align:center;
-color:#777;
+color:#666;
 font-size:13px;
 }
 </style>
@@ -146,7 +147,7 @@ font-size:13px;
 <div class="blur"></div>
 
 <div class="card" id="card">
-    <div class="avatar" style="background-image: url('https://i.imgur.com/rhn33Z2.jpg')"></div>
+    <div class="avatar"></div>
     <h1>Kirill</h1>
     
     <div class="links">
@@ -158,24 +159,24 @@ font-size:13px;
 </div>
 
 <script>
-// Particles background
+// Particles
 const canvas=document.getElementById("bg");
 const ctx=canvas.getContext("2d");
 canvas.width=innerWidth;
 canvas.height=innerHeight;
 let particles=[];
-for(let i=0;i<120;i++){
+for(let i=0;i<140;i++){
 particles.push({
 x:Math.random()*canvas.width,
 y:Math.random()*canvas.height,
-r:Math.random()*2,
-dx:(Math.random()-.5)*0.4,
-dy:(Math.random()-.5)*0.4
+r:Math.random()*2.2,
+dx:(Math.random()-.5)*0.35,
+dy:(Math.random()-.5)*0.35
 });
 }
 function animate(){
 ctx.clearRect(0,0,canvas.width,canvas.height);
-ctx.fillStyle="white";
+ctx.fillStyle="rgba(255,255,255,0.9)";
 particles.forEach(p=>{
 ctx.beginPath();
 ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
@@ -189,7 +190,7 @@ requestAnimationFrame(animate);
 animate();
 window.onresize=()=>{ canvas.width=innerWidth; canvas.height=innerHeight; };
 
-// 3D + Shine Effect
+// 3D Effect
 const card = document.getElementById("card");
 
 card.addEventListener("mousemove", (e) => {
@@ -197,20 +198,15 @@ card.addEventListener("mousemove", (e) => {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
+    const rotateX = (y - rect.height / 2) / 14 * -1;
+    const rotateY = (x - rect.width / 2) / 14;
     
-    const rotateX = (y - centerY) / 12 * -1;  
-    const rotateY = (x - centerX) / 12;
-    
-    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(25px)`;
+    card.style.transform = `perspective(1100px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(30px)`;
 });
 
 card.addEventListener("mouseleave", () => {
-    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)`;
+    card.style.transform = `perspective(1100px) rotateX(0deg) rotateY(0deg) translateZ(0px)`;
 });
 </script>
-</body>
-</html>
 </body>
 </html>
