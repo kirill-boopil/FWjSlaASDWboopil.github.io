@@ -8,120 +8,147 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:Inter,sans-serif; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter, sans-serif;
+}
 
 body {
-    background:#050505;
-    overflow:hidden;
-    color:white;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    background: #050505;
+    overflow: hidden;
+    color: white;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-canvas { position:fixed; left:0; top:0; width:100%; height:100%; z-index:-2; }
+canvas {
+    position: fixed;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    z-index: -2;
+}
 
 .blur {
-    position:fixed;
-    width:800px; height:800px;
-    border-radius:50%;
-    background:#7c3aed;
-    filter:blur(180px);
-    opacity:.18;
-    left:50%; top:50%;
-    transform:translate(-50%,-50%);
-    z-index:-1;
-    animation:pulse 9s infinite alternate;
+    position: fixed;
+    width: 850px; height: 850px;
+    border-radius: 50%;
+    background: #7c3aed;
+    filter: blur(180px);
+    opacity: 0.17;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    animation: pulse 10s infinite alternate;
 }
-@keyframes pulse { 0%{transform:translate(-50%,-50%) scale(1);} 100%{transform:translate(-50%,-50%) scale(1.25);} }
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    100% { transform: translate(-50%, -50%) scale(1.28); }
+}
 
+/* Основная карточка */
 .card {
-    width: 560px;
-    padding: 55px 50px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.13);
-    backdrop-filter: blur(24px);
-    border-radius: 32px;
-    box-shadow: 0 0 70px rgba(124,58,237,.25);
+    width: 580px;
+    padding: 65px 55px;
+    background: rgba(20, 20, 25, 0.75);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 36px;
+    backdrop-filter: blur(28px);
+    box-shadow: 
+        0 25px 60px rgba(0,0,0,0.6),
+        inset 0 4px 12px rgba(255,255,255,0.08),
+        inset 0 -4px 12px rgba(0,0,0,0.6);
     transform-style: preserve-3d;
     position: relative;
     overflow: hidden;
     transition: box-shadow 0.4s;
 }
 
-.card:hover { box-shadow: 0 0 110px rgba(124,58,237,.55); }
+.card:hover {
+    box-shadow: 
+        0 35px 80px rgba(124,58,237,0.4),
+        inset 0 4px 12px rgba(255,255,255,0.12),
+        inset 0 -4px 12px rgba(0,0,0,0.6);
+}
 
-/* Новый реалистичный блик */
-.card::after {
+/* Steam-like освещение */
+.card::before {
     content: '';
     position: absolute;
     top: -50%;
     left: -50%;
-    width: 40%;
-    height: 60%;
-    background: linear-gradient(
-        135deg,
-        transparent 30%,
-        rgba(255,255,255,0.45) 45%,
-        rgba(255,255,255,0.25) 50%,
+    width: 200%;
+    height: 120%;
+    background: radial-gradient(
+        circle at 50% 20%,
+        rgba(255,255,255,0.22) 0%,
+        rgba(255,255,255,0.05) 40%,
         transparent 70%
     );
-    filter: blur(8px);
-    opacity: 0;
-    transition: all 0.9s cubic-bezier(0.23, 1, 0.32, 1);
+    opacity: 0.6;
     pointer-events: none;
     z-index: 1;
+    transition: opacity 0.4s;
 }
 
-.card:hover::after {
-    opacity: 1;
-    top: 80%;
-    left: 90%;
-    transform: rotate(25deg);
+.card:hover::before {
+    opacity: 0.85;
 }
 
+/* Аватарка */
 .avatar {
-    width: 145px;
-    height: 145px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
-    background: url('https://i.imgur.com/jJaNdwN.jpg') center/cover;
-    margin: 0 auto 35px;
-    border: 4px solid rgba(255,255,255,0.18);
-    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    background: url('https://i.imgur.com/jJaNdwN.jpg') center/cover no-repeat;
+    margin: 0 auto 38px;
+    border: 5px solid rgba(255,255,255,0.15);
+    box-shadow: 
+        0 10px 40px rgba(0,0,0,0.5),
+        inset 0 4px 12px rgba(255,255,255,0.2);
+    position: relative;
+    z-index: 2;
 }
 
 h1 {
-    font-size: 48px;
+    font-size: 50px;
     text-align: center;
-    margin-bottom: 38px;
-    letter-spacing: -1.5px;
+    margin-bottom: 40px;
+    letter-spacing: -2px;
+    font-weight: 700;
+    z-index: 2;
+    position: relative;
 }
 
 .links {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    position: relative;
+    z-index: 2;
 }
 
 .links a {
     text-decoration: none;
     color: white;
-    background: rgba(255,255,255,0.06);
-    padding: 18px 24px;
-    border-radius: 16px;
+    background: rgba(255,255,255,0.05);
+    padding: 19px 26px;
+    border-radius: 18px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid rgba(255,255,255,0.1);
-    font-size: 17px;
-    transition: all 0.35s;
+    border: 1px solid rgba(255,255,255,0.09);
+    font-size: 17.5px;
+    transition: all 0.4s ease;
 }
 
 .links a:hover {
     background: #7c3aed;
-    transform: translateX(10px);
-    box-shadow: 0 0 25px rgba(124,58,237,.4);
+    transform: translateX(14px) scale(1.02);
+    box-shadow: 0 0 25px rgba(124,58,237,0.5);
 }
 </style>
 </head>
@@ -141,51 +168,62 @@ h1 {
 </div>
 
 <script>
-// Particles + 3D (оставил как было, но чуть смягчил)
+// Particles
 const canvas = document.getElementById("bg");
 const ctx = canvas.getContext("2d");
-canvas.width = innerWidth; canvas.height = innerHeight;
+canvas.width = innerWidth;
+canvas.height = innerHeight;
 
 let particles = [];
-for(let i = 0; i < 140; i++) {
+for(let i = 0; i < 150; i++) {
     particles.push({
-        x: Math.random()*canvas.width,
-        y: Math.random()*canvas.height,
-        r: Math.random()*2.2,
-        dx: (Math.random()-0.5)*0.35,
-        dy: (Math.random()-0.5)*0.35
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2.4,
+        dx: (Math.random() - 0.5) * 0.4,
+        dy: (Math.random() - 0.5) * 0.4
     });
 }
 
 function animate() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.fillStyle = "rgba(255,255,255,0.85)";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "rgba(255,255,255,0.9)";
     particles.forEach(p => {
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
-        p.x += p.dx; p.y += p.dy;
-        if(p.x < 0) p.x = canvas.width;
-        if(p.x > canvas.width) p.x = 0;
-        if(p.y < 0) p.y = canvas.height;
-        if(p.y > canvas.height) p.y = 0;
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
     });
     requestAnimationFrame(animate);
 }
 animate();
 
-window.onresize = () => { canvas.width = innerWidth; canvas.height = innerHeight; };
+window.onresize = () => {
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+};
 
+// 3D Effect
 const card = document.getElementById("card");
-card.addEventListener("mousemove", e => {
+
+card.addEventListener("mousemove", (e) => {
     const rect = card.getBoundingClientRect();
-    const rotateX = (e.clientY - rect.top - rect.height/2) / 16 * -1;
-    const rotateY = (e.clientX - rect.left - rect.width/2) / 16;
-    card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(25px)`;
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    
+    const rotateX = y * -22;
+    const rotateY = x * 28;
+    
+    card.style.transform = `perspective(1300px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(35px)`;
 });
 
 card.addEventListener("mouseleave", () => {
-    card.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) translateZ(0)`;
+    card.style.transform = `perspective(1300px) rotateX(0deg) rotateY(0deg) translateZ(0px)`;
 });
 </script>
 </body>
