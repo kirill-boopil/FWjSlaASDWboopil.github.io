@@ -8,139 +8,120 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Inter,sans-serif;
-}
-body{
-background:#050505;
-overflow:hidden;
-color:white;
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-}
-canvas{
-position:fixed;
-left:0;
-top:0;
-width:100%;
-height:100%;
-z-index:-2;
-}
-.blur{
-position:fixed;
-width:800px;
-height:800px;
-border-radius:50%;
-background:#7c3aed;
-filter:blur(180px);
-opacity:.18;
-left:50%;
-top:50%;
-transform:translate(-50%,-50%);
-z-index:-1;
-animation:pulse 8s infinite alternate;
-}
-@keyframes pulse{
-0%{transform:translate(-50%,-50%) scale(1);}
-100%{transform:translate(-50%,-50%) scale(1.25);}
+* { margin:0; padding:0; box-sizing:border-box; font-family:Inter,sans-serif; }
+
+body {
+    background:#050505;
+    overflow:hidden;
+    color:white;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-.card{
-width:560px;
-padding:60px 50px;
-background:rgba(255,255,255,.06);
-border:1px solid rgba(255,255,255,.12);
-backdrop-filter:blur(24px);
-border-radius:32px;
-transition: transform 0.1s linear, box-shadow 0.4s;
-box-shadow:0 0 70px rgba(124,58,237,.25);
-transform-style: preserve-3d;
-position: relative;
-overflow: hidden;
+canvas { position:fixed; left:0; top:0; width:100%; height:100%; z-index:-2; }
+
+.blur {
+    position:fixed;
+    width:800px; height:800px;
+    border-radius:50%;
+    background:#7c3aed;
+    filter:blur(180px);
+    opacity:.18;
+    left:50%; top:50%;
+    transform:translate(-50%,-50%);
+    z-index:-1;
+    animation:pulse 9s infinite alternate;
 }
-.card::before{
-content: '';
-position: absolute;
-top: -120%;
-left: -80%;
-width: 35%;
-height: 280%;
-background: linear-gradient(
-    135deg,
-    transparent 35%,
-    rgba(255,255,255,0.28) 48%,
-    rgba(255,255,255,0.18) 52%,
-    transparent 65%
-);
-transition: all 0.85s cubic-bezier(0.23, 1, 0.32, 1);
-pointer-events: none;
-z-index: 2;
-filter: blur(2px);
-}
-.card:hover::before{
-top: 120%;
-left: 140%;
-transform: rotate(30deg);
+@keyframes pulse { 0%{transform:translate(-50%,-50%) scale(1);} 100%{transform:translate(-50%,-50%) scale(1.25);} }
+
+.card {
+    width: 560px;
+    padding: 55px 50px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.13);
+    backdrop-filter: blur(24px);
+    border-radius: 32px;
+    box-shadow: 0 0 70px rgba(124,58,237,.25);
+    transform-style: preserve-3d;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.4s;
 }
 
-.card:hover{
-box-shadow:0 0 110px rgba(124,58,237,.5);
+.card:hover { box-shadow: 0 0 110px rgba(124,58,237,.55); }
+
+/* Новый реалистичный блик */
+.card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 40%;
+    height: 60%;
+    background: linear-gradient(
+        135deg,
+        transparent 30%,
+        rgba(255,255,255,0.45) 45%,
+        rgba(255,255,255,0.25) 50%,
+        transparent 70%
+    );
+    filter: blur(8px);
+    opacity: 0;
+    transition: all 0.9s cubic-bezier(0.23, 1, 0.32, 1);
+    pointer-events: none;
+    z-index: 1;
 }
 
-.avatar{
-width:140px;
-height:140px;
-border-radius:50%;
-background: url('./avatar.png') center/cover no-repeat;
-display:flex;
-justify-content:center;
-align-items:center;
-margin:auto;
-margin-bottom:35px;
-border:4px solid rgba(255,255,255,0.2);
-box-shadow:0 0 30px rgba(124,58,237,.3);
+.card:hover::after {
+    opacity: 1;
+    top: 80%;
+    left: 90%;
+    transform: rotate(25deg);
 }
 
-h1{
-font-size:48px;
-text-align:center;
-margin-bottom:35px;
-letter-spacing:-1px;
+.avatar {
+    width: 145px;
+    height: 145px;
+    border-radius: 50%;
+    background: url('https://i.imgur.com/jJaNdwN.jpg') center/cover;
+    margin: 0 auto 35px;
+    border: 4px solid rgba(255,255,255,0.18);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
 }
 
-.links{
-display:flex;
-flex-direction:column;
-gap:18px;
+h1 {
+    font-size: 48px;
+    text-align: center;
+    margin-bottom: 38px;
+    letter-spacing: -1.5px;
 }
-.links a{
-text-decoration:none;
-color:white;
-background:rgba(255,255,255,.06);
-padding:18px 22px;
-border-radius:16px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-transition:.35s;
-border:1px solid rgba(255,255,255,.1);
-font-size:17px;
+
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
-.links a:hover{
-background:#7c3aed;
-transform:translateX(12px);
-box-shadow:0 0 20px rgba(124,58,237,.4);
+
+.links a {
+    text-decoration: none;
+    color: white;
+    background: rgba(255,255,255,0.06);
+    padding: 18px 24px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(255,255,255,0.1);
+    font-size: 17px;
+    transition: all 0.35s;
 }
-footer{
-margin-top:40px;
-text-align:center;
-color:#666;
-font-size:13px;
+
+.links a:hover {
+    background: #7c3aed;
+    transform: translateX(10px);
+    box-shadow: 0 0 25px rgba(124,58,237,.4);
 }
 </style>
 </head>
@@ -157,60 +138,55 @@ font-size:13px;
         <a href="#"><span>Telegram</span><span>→</span></a>
         <a href="#"><span>Discord</span><span>→</span></a>
     </div>
-    <footer></footer>
 </div>
 
 <script>
-// Particles
-const canvas=document.getElementById("bg");
-const ctx=canvas.getContext("2d");
-canvas.width=innerWidth;
-canvas.height=innerHeight;
-let particles=[];
-for(let i=0;i<140;i++){
-particles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*2.2,
-dx:(Math.random()-.5)*0.35,
-dy:(Math.random()-.5)*0.35
-});
+// Particles + 3D (оставил как было, но чуть смягчил)
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth; canvas.height = innerHeight;
+
+let particles = [];
+for(let i = 0; i < 140; i++) {
+    particles.push({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height,
+        r: Math.random()*2.2,
+        dx: (Math.random()-0.5)*0.35,
+        dy: (Math.random()-0.5)*0.35
+    });
 }
-function animate(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-ctx.fillStyle="rgba(255,255,255,0.9)";
-particles.forEach(p=>{
-ctx.beginPath();
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-ctx.fill();
-p.x+=p.dx; p.y+=p.dy;
-if(p.x<0)p.x=canvas.width; if(p.x>canvas.width)p.x=0;
-if(p.y<0)p.y=canvas.height; if(p.y>canvas.height)p.y=0;
-});
-requestAnimationFrame(animate);
+
+function animate() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = "rgba(255,255,255,0.85)";
+    particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fill();
+        p.x += p.dx; p.y += p.dy;
+        if(p.x < 0) p.x = canvas.width;
+        if(p.x > canvas.width) p.x = 0;
+        if(p.y < 0) p.y = canvas.height;
+        if(p.y > canvas.height) p.y = 0;
+    });
+    requestAnimationFrame(animate);
 }
 animate();
-window.onresize=()=>{ canvas.width=innerWidth; canvas.height=innerHeight; };
 
-// 3D Effect
+window.onresize = () => { canvas.width = innerWidth; canvas.height = innerHeight; };
+
 const card = document.getElementById("card");
-
-card.addEventListener("mousemove", (e) => {
+card.addEventListener("mousemove", e => {
     const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    const rotateX = (y - rect.height / 2) / 15 * -1;
-    const rotateY = (x - rect.width / 2) / 15;
-    
-    card.style.transform = `perspective(1100px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(30px)`;
+    const rotateX = (e.clientY - rect.top - rect.height/2) / 16 * -1;
+    const rotateY = (e.clientX - rect.left - rect.width/2) / 16;
+    card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(25px)`;
 });
 
 card.addEventListener("mouseleave", () => {
-    card.style.transform = `perspective(1100px) rotateX(0deg) rotateY(0deg) translateZ(0px)`;
+    card.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) translateZ(0)`;
 });
 </script>
-</body>
-</html>
 </body>
 </html>
