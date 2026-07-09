@@ -31,8 +31,8 @@
             perspective: 1200px;
         }
 
-        /* Задний фон */
-        canvas {
+        /* Задний фон с частицами */
+        #particlesCanvas {
             position: fixed;
             left: 0;
             top: 0;
@@ -73,8 +73,8 @@
         }
 
         @keyframes cardFloat {
-            0%, 100% { transform: translateY(0) rotateX(0); }
-            50% { transform: translateY(-15px) rotateX(1deg); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
         }
 
         /* Карточка */
@@ -90,14 +90,7 @@
             z-index: 10;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
             transform-style: preserve-3d;
-            /* Плавное возвращение */
-            transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s ease;
-            animation: cardFloat 6s infinite ease-in-out;
-        }
-
-        .card:hover {
-            box-shadow: 0 40px 90px rgba(124, 58, 237, 0.25);
-            animation-play-state: paused;
+            transition: transform 0.1s ease-out; /* Быстрый отклик на мышь */
         }
 
         /* Аватарка */
@@ -110,8 +103,6 @@
             border: 5px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
             animation: avatarEntrance 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-            position: relative;
-            z-index: 5;
         }
 
         h1 {
@@ -140,6 +131,7 @@
             border-radius: 20px;
             display: flex;
             align-items: center;
+            justify-content: space-between; /* Для стрелочки справа */
             gap: 12px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             font-size: 15px;
@@ -149,28 +141,48 @@
             animation: linkEntrance 0.6s ease forwards;
         }
 
+        .link-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
         .link-item i {
-            font-size: 20px;
+            font-size: 18px;
             width: 24px;
             text-align: center;
         }
 
-        /* Индивидуальные стили и свечение кнопок */
-        .link-item:hover {
-            transform: translateY(-5px) scale(1.02);
-            color: #fff;
+        .arrow {
+            font-size: 12px;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
         }
 
-        .github:hover { background: #333 !important; box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15); }
-        .telegram:hover { background: #0088cc !important; box-shadow: 0 10px 25px rgba(0, 136, 204, 0.4); }
-        .vk:hover { background: #0077ff !important; box-shadow: 0 10px 25px rgba(0, 119, 255, 0.4); }
-        .tiktok:hover { background: #010101 !important; color: #ff0050 !important; box-shadow: 0 10px 25px rgba(255, 0, 80, 0.3); }
-        .spotify:hover { background: #1DB954 !important; color: #000 !important; box-shadow: 0 10px 25px rgba(29, 185, 84, 0.4); }
-        .yandex:hover { background: #ffcc00 !important; color: #000 !important; box-shadow: 0 10px 25px rgba(255, 204, 0, 0.4); }
-        .pinterest:hover { background: #bd081c !important; box-shadow: 0 10px 25px rgba(189, 8, 28, 0.4); }
-        .discord:hover { background: #5865F2 !important; box-shadow: 0 10px 25px rgba(88, 101, 242, 0.4); }
+        .link-item:hover .arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
 
-        /* Очередность появления кнопок */
+        /* Эффекты при наведении */
+        .link-item:hover {
+            transform: translateY(-3px) scale(1.02);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Цвета брендов */
+        .github:hover { background: #333 !important; box-shadow: 0 10px 25px rgba(255, 255, 255, 0.1); }
+        .telegram:hover { background: #0088cc !important; box-shadow: 0 10px 25px rgba(0, 136, 204, 0.3); }
+        .vk:hover { background: #0077ff !important; box-shadow: 0 10px 25px rgba(0, 119, 255, 0.3); }
+        .tiktok:hover { background: #010101 !important; color: #ff0050 !important; box-shadow: 0 10px 25px rgba(255, 0, 80, 0.2); }
+        .spotify:hover { background: #1DB954 !important; color: #000 !important; box-shadow: 0 10px 25px rgba(29, 185, 84, 0.3); }
+        .yandex:hover { background: #ffcc00 !important; color: #000 !important; box-shadow: 0 10px 25px rgba(255, 204, 0, 0.3); }
+        .pinterest:hover { background: #bd081c !important; box-shadow: 0 10px 25px rgba(189, 8, 28, 0.3); }
+        .discord:hover { background: #5865F2 !important; box-shadow: 0 10px 25px rgba(88, 101, 242, 0.3); }
+
+        /* Очередность появления */
         .link-item:nth-child(1) { animation-delay: 0.4s; }
         .link-item:nth-child(2) { animation-delay: 0.5s; }
         .link-item:nth-child(3) { animation-delay: 0.6s; }
@@ -180,11 +192,12 @@
         .link-item:nth-child(7) { animation-delay: 1.0s; }
         .link-item:nth-child(8) { animation-delay: 1.1s; }
 
-        /* Адаптив под мобилки */
+        /* Адаптив */
         @media (max-width: 620px) {
-            .card { width: 90%; padding: 30px 20px; }
+            .card { width: 90%; padding: 30px 20px; max-height: 95vh; overflow-y: auto; }
             .links-grid { grid-template-columns: 1fr; }
             h1 { font-size: 36px; }
+            body { overflow: auto; }
         }
     </style>
 </head>
@@ -199,36 +212,67 @@
         
         <div class="links-grid">
             <a href="https://github.com/kirill-boopil" target="_blank" class="link-item github">
-                <i class="fa-brands fa-github"></i>
-                <span>GitHub</span>
+                <div class="link-content">
+                    <i class="fa-brands fa-github"></i>
+                    <span>GitHub</span>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow"></i>
             </a>
-            <a href="#" class="https://t.me/flactal">
-                <i class="fa-brands fa-telegram"></i>
-                <span>Telegram</span>
+
+            <a href="https://t.me/flactal" target="_blank" class="link-item telegram">
+                <div class="link-content">
+                    <i class="fa-brands fa-telegram"></i>
+                    <span>Telegram</span>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow"></i>
             </a>
-            <a href="#" class="линк ВК">
-                <i class="fa-brands fa-vk"></i>
-                <span>ВКонтакте</span>
+
+            <a href="https://vk.com/" target="_blank" class="link-item vk">
+                <div class="link-content">
+                    <i class="fa-brands fa-vk"></i>
+                    <span>ВКонтакте</span>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow"></i>
             </a>
-            <a href="#" class="https://www.tiktok.com/@prokendol112/video/7508817190636752146?is_from_webapp=1&sender_device=pc">
-                <i class="fa-brands fa-tiktok"></i>
-                <span>TikTok</span>
+
+            <a href="https://www.tiktok.com/@prokendol112" target="_blank" class="link-item tiktok">
+                <div class="link-content">
+                    <i class="fa-brands fa-tiktok"></i>
+                    <span>TikTok</span>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow"></i>
             </a>
-            <a href="#" class="здеся ссылка">
-                <i class="fa-brands fa-spotify"></i>
-                <span>Spotify</span>
+
+            <a href="https://open.spotify.com/" target="_blank" class="link-item spotify">
+                <div class="link-content">
+                    <i class="fa-brands fa-spotify"></i>
+                    <span>Spotify</span>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow"></i>
             </a>
-            <a href="#" class="здесь ссылка">
-                <i class="fa-brands fa-yandex"></i>
-                <span>Яндекс Музыка</span>
+
+            <a href="https://music.yandex.ru/" target="_blank" class="link-item yandex">
+                <div class="link-content">
+                    <i class="fa-brands fa-yandex"></i>
+                    <span>Музыка</span>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow"></i>
             </a>
-            <a href="#" class="https://pin.it/4Z7VWYWgp">
-                <i class="fa-brands fa-pinterest"></i>
-                <span>Pinterest</span>
+
+            <a href="https://pin.it/4Z7VWYWgp" target="_blank" class="link-item pinterest">
+                <div class="link-content">
+                    <i class="fa-brands fa-pinterest"></i>
+                    <span>Pinterest</span>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow"></i>
             </a>
-            <a href="#" class="дискард">
-                <i class="fa-brands fa-discord"></i>
-                <span>Discord</span>
+
+            <a href="https://discord.com/" target="_blank" class="link-item discord">
+                <div class="link-content">
+                    <i class="fa-brands fa-discord"></i>
+                    <span>Discord</span>
+                </div>
+                <i class="fa-solid fa-chevron-right arrow"></i>
             </a>
         </div>
     </div>
@@ -273,41 +317,29 @@
         initParticles();
         animateParticles();
 
-        /** ИНТЕРАКТИВ КАРТОЧКИ (3D НАКЛОН) **/
+        /** 3D НАКЛОН КАРТОЧКИ **/
         const card = document.getElementById("mainCard");
 
         card.addEventListener("mousemove", (e) => {
             const rect = card.getBoundingClientRect();
-            // Вычисляем положение курсора относительно центра карточки
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             
-            // Чувствительность (чем меньше делитель, тем сильнее наклон)
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
             
-            const rotateX = (y - centerY) / 12; // Умеренная чувствительность
-            const rotateY = (centerX - x) / 12;
+            const rotateX = (y - centerY) / 15; 
+            const rotateY = (centerX - x) / 15;
 
-            // Применяем трансформацию мгновенно для отклика
-            card.style.transition = "transform 0.1s ease-out, box-shadow 0.4s ease";
             card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-            card.style.animation = "none"; // Останавливаем фоновую левитацию
         });
 
         card.addEventListener("mouseleave", () => {
-            // Возвращаем в исходное состояние плавно
-            card.style.transition = "transform 0.7s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s ease";
+            card.style.transition = "transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)";
             card.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-            
-            // Запускаем анимацию левитации обратно после завершения возврата
-            setTimeout(() => {
-                if (!card.matches(':hover')) {
-                    card.style.animation = "cardFloat 6s infinite ease-in-out";
-                }
-            }, 700);
+            // После завершения плавного возврата убираем transition для мгновенного отклика при следующем наведении
+            setTimeout(() => { card.style.transition = "transform 0.1s ease-out"; }, 600);
         });
     </script>
 </body>
-</html>
 </html>
