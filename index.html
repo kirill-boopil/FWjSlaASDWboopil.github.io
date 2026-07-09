@@ -1,180 +1,305 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kirill</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet">
-<style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:Inter,sans-serif; }
-body {
-    background:#050505;
-    overflow:hidden;
-    color:white;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-canvas { position:fixed; left:0; top:0; width:100%; height:100%; z-index:-2; opacity:0.8; }
-.blur {
-    position:fixed;
-    width:900px; height:900px;
-    border-radius:50%;
-    background:linear-gradient(135deg,#7c3aed,#3b82f6);
-    filter:blur(160px);
-    opacity:0.14;
-    left:50%; top:50%;
-    transform:translate(-50%,-50%);
-    z-index:-1;
-    animation:pulse 12s infinite alternate ease-in-out;
-}
-@keyframes pulse { 0%{transform:translate(-50%,-50%) scale(0.95);} 100%{transform:translate(-50%,-50%) scale(1.35);} }
-@keyframes float {
-    0% { transform: perspective(1400px) translateY(0px) rotateX(0deg) rotateY(0deg); }
-    50% { transform: perspective(1400px) translateY(-15px) rotateX(2deg) rotateY(-1deg); }
-    100% { transform: perspective(1400px) translateY(0px) rotateX(0deg) rotateY(0deg); }
-}
-.card {
-    width:580px;
-    padding:65px 55px;
-    background:rgba(20,20,28,0.78);
-    border:1px solid rgba(255,255,255,0.12);
-    border-radius:36px;
-    backdrop-filter:blur(28px);
-    box-shadow:0 30px 70px rgba(0,0,0,0.65),
-               inset 0 3px 15px rgba(255,255,255,0.06),
-               inset 0 -6px 15px rgba(0,0,0,0.7);
-    transform-style:preserve-3d;
-    position:relative;
-    overflow:hidden;
-    animation: float 6s infinite ease-in-out;
-    transition: box-shadow 0.4s ease;
-}
-.card:hover { 
-    box-shadow:0 40px 90px rgba(124,58,237,0.45); 
-    animation-play-state: paused;
-}
-.card::before {
-    content:'';
-    position:absolute;
-    inset:-50%;
-    background:radial-gradient(circle at 50% 25%, rgba(255,255,255,0.25) 0%, transparent 60%);
-    opacity:0.65;
-    pointer-events:none;
-    z-index:1;
-}
-.card:hover::before { opacity:0.9; }
-.avatar {
-    width:152px;
-    height:152px;
-    border-radius:50%;
-    background: url('avatar.png') center/cover;
-    margin:0 auto 40px;
-    border:5px solid rgba(255,255,255,0.18);
-    box-shadow:0 15px 45px rgba(0,0,0,0.5);
-    position:relative;
-    z-index:2;
-}
-h1 {
-    font-size:62px;
-    text-align:center;
-    margin-bottom:42px;
-    letter-spacing:-1px;
-    font-weight:800;
-    position:relative;
-    z-index:2;
-    color: #fff;
-    text-transform: uppercase;
-    text-shadow: 
-        0 1px 0 #ccc, 
-        0 2px 0 #c9c9c9, 
-        0 3px 0 #bbb, 
-        0 4px 0 #b9b9b9, 
-        0 5px 0 #aaa, 
-        0 6px 1px rgba(0,0,0,.1), 
-        0 0 5px rgba(0,0,0,.1), 
-        0 1px 3px rgba(0,0,0,.3), 
-        0 3px 5px rgba(0,0,0,.2), 
-        0 5px 10px rgba(0,0,0,.25), 
-        0 10px 10px rgba(0,0,0,.2), 
-        0 20px 20px rgba(0,0,0,.15);
-}
-.links {
-    display:flex;
-    flex-direction:column;
-    gap:17px;
-    position:relative;
-    z-index:2;
-}
-.links a {
-    text-decoration:none;
-    color:white;
-    background:rgba(255,255,255,0.06);
-    padding:19px 26px;
-    border-radius:18px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    border:1px solid rgba(255,255,255,0.1);
-    font-size:17.5px;
-    transition:all .4s ease;
-}
-.links a:hover {
-    background:#7c3aed;
-    transform:translateX(14px);
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirill | Links</title>
+    
+    <!-- Шрифты и Иконки -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Inter', sans-serif; }
+        
+        body {
+            background: #050505;
+            overflow: hidden;
+            color: white;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas { position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: -2; opacity: 0.6; }
+
+        .blur {
+            position: fixed;
+            width: 800px; height: 800px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7c3aed, #3b82f6);
+            filter: blur(150px);
+            opacity: 0.12;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            animation: pulse 10s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulse { 
+            0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.1; } 
+            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.18; } 
+        }
+
+        @keyframes float {
+            0% { transform: perspective(1400px) translateY(0px) rotateX(0deg); }
+            50% { transform: perspective(1400px) translateY(-15px) rotateX(1deg); }
+            100% { transform: perspective(1400px) translateY(0px) rotateX(0deg); }
+        }
+
+        .card {
+            width: 520px;
+            max-height: 90vh;
+            padding: 50px 40px;
+            background: rgba(15, 15, 20, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 40px;
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.7);
+            position: relative;
+            z-index: 10;
+            animation: float 6s infinite ease-in-out;
+            /* Плавный возврат */
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s ease;
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+        }
+        .card::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+        .card:hover { 
+            box-shadow: 0 50px 100px rgba(124, 58, 237, 0.3);
+        }
+
+        .avatar {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: url('https://via.placeholder.com/150') center/cover; /* Замените на свое фото */
+            margin: 0 auto 30px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 35px;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            background: linear-gradient(to bottom, #fff 40%, #888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .links a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.04);
+            padding: 16px 22px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .link-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .link-content i {
+            font-size: 20px;
+            width: 25px;
+            text-align: center;
+        }
+
+        /* Эффекты при наведении для каждой соцсети */
+        .links a:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Кастомные цвета брендов при наведении */
+        .link-github:hover { background: #333 !important; }
+        .link-telegram:hover { background: #0088cc !important; }
+        .link-vk:hover { background: #0077ff !important; }
+        .link-tiktok:hover { background: #010101 !important; color: #ff0050 !important; }
+        .link-spotify:hover { background: #1DB954 !important; color: #000 !important; }
+        .link-yandex:hover { background: #ffcc00 !important; color: #000 !important; }
+        .link-pinterest:hover { background: #bd081c !important; }
+        .link-discord:hover { background: #5865F2 !important; }
+
+        .arrow {
+            opacity: 0.4;
+            font-size: 14px;
+            transition: transform 0.3s ease;
+        }
+        .links a:hover .arrow {
+            transform: translateX(5px);
+            opacity: 1;
+        }
+
+    </style>
 </head>
 <body>
+
 <canvas id="bg"></canvas>
 <div class="blur"></div>
+
 <div class="card" id="card">
     <div class="avatar"></div>
     <h1>Kirill</h1>
+    
     <div class="links">
-        <a href="https://github.com/kirill-boopil" target="_blank"><span>GitHub</span><span>→</span></a>
-        <a href="#"><span>Telegram</span><span>→</span></a>
-        <a href="#"><span>Discord</span><span>→</span></a>
+        <a href="https://github.com/kirill-boopil" target="_blank" class="link-github">
+            <div class="link-content">
+                <i class="fa-brands fa-github"></i>
+                <span>GitHub</span>
+            </div>
+            <i class="fa-solid fa-chevron-right arrow"></i>
+        </a>
+
+        <a href="#" class="link-telegram">
+            <div class="link-content">
+                <i class="fa-brands fa-telegram"></i>
+                <span>Telegram</span>
+            </div>
+            <i class="fa-solid fa-chevron-right arrow"></i>
+        </a>
+
+        <a href="#" class="link-vk">
+            <div class="link-content">
+                <i class="fa-brands fa-vk"></i>
+                <span>Вконтакте</span>
+            </div>
+            <i class="fa-solid fa-chevron-right arrow"></i>
+        </a>
+
+        <a href="#" class="link-tiktok">
+            <div class="link-content">
+                <i class="fa-brands fa-tiktok"></i>
+                <span>TikTok</span>
+            </div>
+            <i class="fa-solid fa-chevron-right arrow"></i>
+        </a>
+
+        <a href="#" class="link-spotify">
+            <div class="link-content">
+                <i class="fa-brands fa-spotify"></i>
+                <span>Spotify</span>
+            </div>
+            <i class="fa-solid fa-chevron-right arrow"></i>
+        </a>
+
+        <a href="#" class="link-yandex">
+            <div class="link-content">
+                <i class="fa-brands fa-yandex"></i>
+                <span>Яндекс Музыка</span>
+            </div>
+            <i class="fa-solid fa-chevron-right arrow"></i>
+        </a>
+
+        <a href="#" class="link-pinterest">
+            <div class="link-content">
+                <i class="fa-brands fa-pinterest"></i>
+                <span>Pinterest</span>
+            </div>
+            <i class="fa-solid fa-chevron-right arrow"></i>
+        </a>
+
+        <a href="#" class="link-discord">
+            <div class="link-content">
+                <i class="fa-brands fa-discord"></i>
+                <span>Discord</span>
+            </div>
+            <i class="fa-solid fa-chevron-right arrow"></i>
+        </a>
     </div>
 </div>
+
 <script>
-const canvas=document.getElementById("bg");
-const ctx=canvas.getContext("2d");
-canvas.width=innerWidth; canvas.height=innerHeight;
-let particles=[];
-for(let i=0;i<180;i++){
-particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2.5,dx:(Math.random()-.5)*0.45,dy:(Math.random()-.5)*0.45});
-}
-function animate(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-ctx.fillStyle="rgba(240,240,255,0.9)";
-particles.forEach(p=>{
-ctx.beginPath();
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-ctx.fill();
-p.x+=p.dx; p.y+=p.dy;
-if(p.x<0)p.x=canvas.width; if(p.x>canvas.width)p.x=0;
-if(p.y<0)p.y=canvas.height; if(p.y>canvas.height)p.y=0;
-});
-requestAnimationFrame(animate);
-}
-animate();
-window.onresize=()=>{canvas.width=innerWidth; canvas.height=innerHeight;};
-const card=document.getElementById("card");
-card.addEventListener("mousemove",e=>{
-const rect=card.getBoundingClientRect();
-const x=(e.clientX-rect.left)/rect.width-0.5;
-const y=(e.clientY-rect.top)/rect.height-0.5;
-card.style.animation = "none";
-card.style.transform=`perspective(1400px) rotateX(${y*-24}deg) rotateY(${x*30}deg) translateZ(40px)`;
-});
-card.addEventListener("mouseleave",()=>{
-card.style.transform=`perspective(1400px) rotateX(0deg) rotateY(0deg) translateZ(0px)`;
-card.style.animation = "float 6s infinite ease-in-out";
-});
+    // --- Частицы на фоне ---
+    const canvas = document.getElementById("bg");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+
+    function initCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        particles = [];
+        for(let i=0; i<150; i++){
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 2 + 0.5,
+                dx: (Math.random() - 0.5) * 0.5,
+                dy: (Math.random() - 0.5) * 0.5
+            });
+        }
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
+        particles.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
+            p.x += p.dx; p.y += p.dy;
+            if(p.x < 0) p.x = canvas.width; if(p.x > canvas.width) p.x = 0;
+            if(p.y < 0) p.y = canvas.height; if(p.y > canvas.height) p.y = 0;
+        });
+        requestAnimationFrame(animate);
+    }
+
+    initCanvas();
+    animate();
+    window.onresize = initCanvas;
+
+    // --- Интерактив карточки ---
+    const card = document.getElementById("card");
+
+    card.addEventListener("mousemove", e => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        
+        // Отключаем плавающую анимацию во время взаимодействия
+        card.style.animation = "none";
+        
+        // Наклон (умножаем на коэффициенты для силы эффекта)
+        card.style.transform = `perspective(1400px) rotateX(${y * -15}deg) rotateY(${x * 15}deg) scale3d(1.02, 1.02, 1.02)`;
+    });
+
+    card.addEventListener("mouseleave", () => {
+        // Сбрасываем трансформацию. Благодаря CSS transition это произойдет плавно.
+        card.style.transform = `perspective(1400px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        
+        // Возвращаем фоновую анимацию через небольшую задержку, чтобы не было резкого скачка
+        setTimeout(() => {
+            if (!card.matches(':hover')) {
+                card.style.animation = "float 6s infinite ease-in-out";
+            }
+        }, 600);
+    });
 </script>
+
 </body>
 </html>
